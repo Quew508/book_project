@@ -66,18 +66,30 @@ close.addEventListener("click", () => {
   modal.style.display = "none";
 });
 
+// Event listener for library, using event delegation
+// - Toggle read status when toggle-read button is clicked
+// - Remove book from library when remove-book button is clicked
+library.addEventListener('click', (event) => {
+  const target = event.target;
+  const bookId = target.parentElement.id;
 
-// Event listeners books, using event delegation
-library.addEventListener('click', (e) => {
-  if (e.target.classList.contains('toggle-read')) {
-    const bookId = e.target.parentElement.id;
-    const book = myLibrary.find(book => book.id === bookId);
-    book.toggleRead();
-    renderLibrary();
+  // Toggle read button
+  if (target.classList.contains('toggle-read')) {
+    // Find the book in myLibrary
+    const book = myLibrary.find(item => item.id === bookId);
+    if (book) {
+      // Toggle the read status of the book
+      book.toggleRead();
+      // Re-render the library to show the updated read status
+      renderLibrary();
+    }
   }
-  if (e.target.classList.contains('remove-book')) {
-    const bookId = e.target.parentElement.id;
-    myLibrary = myLibrary.filter(book => book.id !== bookId);
+
+  // Remove book button
+  if (target.classList.contains('remove-book')) {
+    // Remove the book from myLibrary
+    myLibrary = myLibrary.filter(item => item.id !== bookId);
+    // Re-render the library to show the updated list of books
     renderLibrary();
   }
 });
